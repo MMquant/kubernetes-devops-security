@@ -2,7 +2,8 @@ pipeline {
   agent any
 
   stages {
-    stage('Build Artifact - Maven') {
+    
+	stage('Build Artifact - Maven') {
       steps {
         sh "mvn clean package -DskipTests=true"
         archive 'target/*.jar'
@@ -20,6 +21,7 @@ pipeline {
         }
       }
     }
+
 	stage('Mutation Tests - PIT') {
 	      steps {
 		sh "mvn org.pitest:pitest-maven:mutationCoverage"
@@ -31,18 +33,18 @@ pipeline {
 	      }
     }
 
-	stage('SonarQube - SAST') {
-	      steps {
-		withSonarQubeEnv('SonarQube') {
-			sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://172.31.40.19:9000 -Dsonar.login=f3ac7349143d51b0e98a1923f04902ecf6749baf"
-			timeout(time: 2, unit: 'MINUTES') {
-				  script {
-				    waitForQualityGate abortPipeline: true
-				  }
-			}
-		}
-	      }
+    stage('SonarQube - SAST') {
+      steps {
+        withSonarQubeEnv('SonarQube') {
+          sh "mvn sonar:sonar -Dsonar.projectKey=numeric-application -Dsonar.host.url=http://172.31.40.19:9000 -Dsonar.login=f3ac7349143d51b0e98a1923f04902ecf6749baf"
+        }
+        timeout(time: 2, unit: 'MINUTES') {
+          script {
+            waitForQualityGate abortPipeline: true
+          }
+        }
       }
+    }
 
 	stage('Docker Build and Push') {
 	      steps {
