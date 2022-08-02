@@ -1,3 +1,5 @@
+package main
+
 deny[msg] {
   input.kind = "Service"
   not input.spec.type = "NodePort"
