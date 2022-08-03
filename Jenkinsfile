@@ -6,7 +6,7 @@ pipeline {
     containerName = "devsecops-container"
     serviceName = "devsecops-svc"
     imageName = "mmquant/numeric-app:${GIT_COMMIT}"
-    applicationURL = "http://devsecops-demo.eastus.cloudapp.azure.com/"
+    applicationURL = "http://172.31.40.19"
     applicationURI = "/increment/99"
   }
 
@@ -87,21 +87,39 @@ pipeline {
     }
 
     stage('K8S Deployment - DEV') {
-          steps {
-            parallel(
-              "Deployment": {
-                withKubeConfig([credentialsId: 'kubeconfig']) {
-                  sh "bash k8s-deployment.sh"
-                }
-              },
-              "Rollout Status": {
-                withKubeConfig([credentialsId: 'kubeconfig']) {
-                  sh "bash k8s-deployment-rollout-status.sh"
-                }
-              }
-            )
+      steps {
+        parallel(
+          "Deployment": {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "bash k8s-deployment.sh"
+            }
+          },
+          "Rollout Status": {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "bash k8s-deployment-rollout-status.sh"
+            }
+          }
+        )
+      }
+    }
+  
+    stage('Integration Tests - DEV') {
+      steps {
+        script {
+          try {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "bash integration-test.sh"
+            }
+          } catch (e) {
+            withKubeConfig([credentialsId: 'kubeconfig']) {
+              sh "kubectl -n default rollout undo deploy ${deploymentName}"
+            }
+            throw e
           }
         }
+      }
+    }
+
 
 
   }
