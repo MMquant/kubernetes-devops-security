@@ -16,14 +16,13 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
     <version>0.0.1</version>
     <name>numeric</name>
     <description>Demo for DevSecOps</description>
-
     <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <project.build.sourceEncoding>
+        UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>
+        UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-
     </properties>
-    
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -37,6 +36,11 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>1.2.30</version>
         </dependency>
     </dependencies>
     <build>
