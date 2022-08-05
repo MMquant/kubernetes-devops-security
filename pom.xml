@@ -22,6 +22,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/x
         <project.reporting.outputEncoding>
         UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <spring-security.version>5.4.7</spring-security.version>
     </properties>
     <dependencies>
         <dependency>
