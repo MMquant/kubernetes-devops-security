@@ -146,7 +146,6 @@ pipeline {
 
         }
       }
-
     }
   
   post {
@@ -158,14 +157,5 @@ pipeline {
         dependencyCheckPublisher pattern: 'target/dependency-check-report.xml'
         publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWASP ZAP HTML REPORT', reportTitles: 'OWASP ZAP HTML REPORT'])
     }
-
-//    success {
-//
-//    }
-//
-//    failure {
-//
-//    }
-
   }
 }
