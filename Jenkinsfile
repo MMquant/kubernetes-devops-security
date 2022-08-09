@@ -128,25 +128,25 @@ pipeline {
       }
     }
 
-    stage('K8S CIS Benchmark') {
-      steps {
-        script {
-
-          parallel(
-            "Master": {
-              sh "bash cis-master.sh"
-            },
-            "Etcd": {
-              sh "bash cis-etcd.sh"
-            },
-            "Kubelet": {
-              sh "bash cis-kubelet.sh"
-            }
-          )
-
-        }
-      }
-    }
+//    stage('K8S CIS Benchmark') {
+//      steps {
+//        script {
+//
+//          parallel(
+//            "Master": {
+//              sh "bash cis-master.sh"
+//            },
+//            "Etcd": {
+//              sh "bash cis-etcd.sh"
+//            },
+//            "Kubelet": {
+//              sh "bash cis-kubelet.sh"
+//            }
+//          )
+//
+//        }
+//      }
+//    }
   
   post {
   
@@ -158,5 +158,4 @@ pipeline {
         publishHTML([allowMissing: false, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'owasp-zap-report', reportFiles: 'zap_report.html', reportName: 'OWASP ZAP HTML REPORT', reportTitles: 'OWASP ZAP HTML REPORT'])
     }
   }
-}
 }
